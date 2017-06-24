@@ -17,9 +17,37 @@ exports.signUp = (req, res, next) => {
 };
 
 exports.getUsers = (req, res, next) => {
-  console.log('Users get all');
+  console.log('Users getUsers');
   User.find((err, users) => {
     if (err) res.send(err);
     res.send(users);
   });
+};
+
+exports.signIn = (req, res, next) => {
+  console.log('Users signIn');
+  const user = req.user;
+  console.log(`user signing in as: ${user}`);
+
+  const token = jwt.sign(
+    {
+      _id: user._id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+    },
+    process.env.TOKEN_SECRET,
+    { expiresIn: '1h' }
+  );
+
+  const userObj = {
+    _id: user._id,
+    name: user.name,
+    username: user.username,
+    email: user.email,
+    token,
+  };
+
+  console.log('returning this user Object: ', userObj);
+  res.send(userObj);
 };
