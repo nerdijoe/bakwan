@@ -10,6 +10,7 @@ const User = require('./models/user');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const items = require('./routes/items');
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use(cors());
 
 app.use('/', index);
 app.use('/api/users', users);
+app.use('/api/items', items);
 
 const port = 3000;
 app.listen(port, () => {
